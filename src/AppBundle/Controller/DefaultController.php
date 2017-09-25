@@ -12,8 +12,26 @@ class DefaultController extends Controller
 {
     
     /**
+    * @Route("/", name="welcome")
+    */
+    public function homepageAction(){
+        $array = [];
+        $exos = scandir(__DIR__."/../Resources/views/Default/");
+        foreach($exos as $key => $value) {
+            if ($key === 0 OR $key === 1) {}
+            else {
+                $value = str_replace(".html.twig", "", $value);
+                $array[] = $value;
+            }
+        }
+        return $this->render('AppBundle:Default:welcome.html.twig', array(
+            'array' => $array
+        ));
+    }
+
+    /**
      * @Route("/lucky/number/{max}", 
-     *name="lucky_number",
+     *name="number",
      *defaults={"max": 100}, 
      *requirements={"max": "\d+"})  
      *
@@ -45,5 +63,14 @@ class DefaultController extends Controller
             'year' => $year,
             '_locale' => $_locale
         ));
+    }
+
+    /**
+    * @Route("/template", name="template")
+    */
+    public function templateAction()
+    {
+        
+        return $this->render('AppBundle:Default:template.html.twig');
     }
 }
