@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    {% if _locale == "fr" %}
+        Voici l'article {{title}}, de l'année {{year}}, en langue {{_locale}}.
+    {% endif %}
+
+    {% if _locale == "en" %}
+        There is the article {{title}}, from the year {{year}}, in {{_locale}}.
+    {% endif %}
+{% endblock %}
