@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h2>List of Armas</h2>
+    <ul>
+    {% for value in arma %}
+        <li><a href="{{ path("entity-solo", {"name": value.name})}}">{{value.name}}</a></li>
+    {% endfor %}
+    <ul>
+{% endblock %}

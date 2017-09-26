@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use AppBundle\Entity\Armadillo;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
@@ -72,5 +73,33 @@ class DefaultController extends Controller
     {
         
         return $this->render('AppBundle:Default:template.html.twig');
+    }
+
+    /**
+    * @Route("/armadillos", name="entity")
+    */
+
+    public function showArmadillosAction(){
+
+        $repository = $this->getDoctrine()->getRepository(Armadillo::class);
+        $arma = $repository->findAll();
+        
+        return $this->render('AppBundle:Default:entity.html.twig', array(
+            'arma' => $arma
+        ));
+    }
+
+    /**
+    * @Route("/armadillos/{name}", name="entity-solo")
+    */
+
+    public function showArmaAction($name){
+        $repository = $this->getDoctrine()->getRepository(Armadillo::class);
+        $arma = $repository->findOneByName($name);
+
+        return $this->render('AppBundle:Default:entity-solo.html.twig', array(
+            'arma' => $arma
+        ));
+
     }
 }

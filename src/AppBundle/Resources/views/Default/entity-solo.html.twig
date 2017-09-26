@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h2>{{ arma.name}}</h2>
+    <ul>
+        <li>Description: {{arma.description}}</li>
+        <li>Birthday: {{arma.birthday.format("d-m-Y")}}</li>
+        <li>Age: {{arma.age}} y</li>
+    <ul>
+{% endblock %}
