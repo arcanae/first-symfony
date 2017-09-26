@@ -4,7 +4,7 @@
     <h2>List of Armas</h2>
     <ul>
     {% for value in arma %}
-        <li><a href="{{ path("entity-solo", {"name": value.name})}}">{{value.name}}</a></li>
+        <li><a href="{{ path("entity-solo", {"id": value.id})}}">{{value.name}}</a></li>
     {% endfor %}
     <ul>
 {% endblock %}

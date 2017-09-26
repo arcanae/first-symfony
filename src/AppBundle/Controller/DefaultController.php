@@ -6,6 +6,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
+
 use AppBundle\Entity\Armadillo;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -90,15 +97,46 @@ class DefaultController extends Controller
     }
 
     /**
-    * @Route("/armadillos/{name}", name="entity-solo")
+    * @Route("/armadillos/{id}", name="entity-solo")
     */
 
-    public function showArmaAction($name){
+    public function showArmaAction($id){
         $repository = $this->getDoctrine()->getRepository(Armadillo::class);
-        $arma = $repository->findOneByName($name);
+        $arma = $repository->findOneById($id);
 
         return $this->render('AppBundle:Default:entity-solo.html.twig', array(
             'arma' => $arma
+        ));
+
+    }
+
+    /**
+    * @Route("armadillo/new", name="entity-new")
+    */
+
+    public function newEntityAction(Request $request){
+        $arma = new Armadillo();
+
+        $form = $this->createFormBuilder($arma)
+            ->add('name', TextType::class)
+            ->add('birthday', DateType::class)
+            ->add('description', TextType::class)
+            ->add('age', IntegerType::class)
+            ->add('adult')
+            ->add('save', SubmitType::class, array('label' => 'Create Post'))
+            ->getform();
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($arma);
+            $em->flush();
+        
+            return $this->redirectToRoute('entity-solo', array('name' => $arma->getName()));
+        }
+        return $this->render('AppBundle:Default:entity-new.html.twig', array(
+            'form' => $form->createView()
         ));
 
     }
