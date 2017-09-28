@@ -1,13 +1,17 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    {% for value in array %}
-        {% if value == 'blog' %}
-            <a href="{{ path(value, {"year":2121, "title": "example", "_locale": "fr"})}}">{{value}}</a>
-        {% elseif value == 'entity-solo' or value =='entity-update' %}
-            <a href="{{ path(value, {"id":"1"})}}">{{value}}</a>
-        {% else %}
-            <a href="{{ path(value)}}">{{value}}</a>
-        {% endif %}
-    {% endfor %}
+    <h2>Pages List</h2>
+        <ul>
+            {% for value in array %}
+                {% if value == 'blog' %}
+                    <li><a href="{{ path(value, {"year":2121, "title": "example", "_locale": "fr"})}}">{{value}}</a></li>
+                {% elseif value == 'entity-solo' or value =='entity-update' %}
+                    <li><a href="{{ path(value, {"id":"1"})}}">{{value}}</a></li>
+                {% elseif value == 'welcome' %}
+                {% else %}
+                    <li><a href="{{ path(value)}}">{{value}}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
 {% endblock %}
