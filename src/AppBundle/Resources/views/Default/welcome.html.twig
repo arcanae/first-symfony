@@ -4,7 +4,7 @@
     {% for value in array %}
         {% if value == 'blog' %}
             <a href="{{ path(value, {"year":2121, "title": "example", "_locale": "fr"})}}">{{value}}</a>
-        {% elseif value == 'entity-solo' %}
+        {% elseif value == 'entity-solo' or value =='entity-update' %}
             <a href="{{ path(value, {"id":"1"})}}">{{value}}</a>
         {% else %}
             <a href="{{ path(value)}}">{{value}}</a>
