@@ -15,7 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
-    
+    // ~~ Exercise Controller ~~ \\
+
     /**
     * @Route("/", name="welcome")
     */
@@ -35,10 +36,10 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/lucky/number/{max}", 
+     * @Route("/lucky/number/{max}",
      *name="number",
-     *defaults={"max": 100}, 
-     *requirements={"max": "\d+"})  
+     *defaults={"max": 100},
+     *requirements={"max": "\d+"})
      *
      *
      */
@@ -46,23 +47,26 @@ class DefaultController extends Controller
     {
         $number = mt_rand(0, $max);
         return $this->render('AppBundle:Default:number.html.twig', array(
-            
+
             'number' => $number
         ));
     }
-    
+
+    // ~~ Exercise Twig ~~ \\
+
+
     /**
     * @Route("/blog/{title}/{year}/{_locale}",
     * name="blog",
     * requirements={
-    *     "year": "\d{4}", 
+    *     "year": "\d{4}",
     *     "_locale": "en|fr",
     *     "title": "^[a-z0-9-]+$"})
     *
     */
     public function blogAction($title, $year, $_locale)
     {
-        
+
         return $this->render('AppBundle:Default:blog.html.twig', array(
             'title' => $title,
             'year' => $year,
@@ -75,9 +79,12 @@ class DefaultController extends Controller
     */
     public function templateAction()
     {
-        
+
         return $this->render('AppBundle:Default:template.html.twig');
     }
+
+    // ~~ Exercise Entity ~~ \\
+
 
     /**
     * @Route("/armadillos", name="entity")
@@ -87,7 +94,7 @@ class DefaultController extends Controller
 
         $repository = $this->getDoctrine()->getRepository(Armadillo::class);
         $arma = $repository->findAll();
-        
+
         return $this->render('AppBundle:Default:entity.html.twig', array(
             'arma' => $arma
         ));
@@ -106,6 +113,9 @@ class DefaultController extends Controller
         ));
 
     }
+
+    // ~~ Exercise Form ~~ \\
+
 
     /**
     * @Route("armadillo/new", name="entity-new")
@@ -126,12 +136,12 @@ class DefaultController extends Controller
         $form = $this->createForm('AppBundle\Form\ArmadilloType', $arma);
 
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($arma);
             $em->flush();
-        
+
             return $this->redirectToRoute('entity-solo', array('id' => $arma->getId()));
         }
         return $this->render('AppBundle:Default:entity-new.html.twig', array(
@@ -156,12 +166,50 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($arma);
             $em->flush();
-        
+
             return $this->redirectToRoute('entity-solo', array('id' => $arma->getId()));
         }
 
-        return $this->render('AppBundle:Default:entity-new.html.twig', array(
+        return $this->render('AppBundle:Default:entity-update.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+     /**
+    * @Route("armadillo/delete/{id}", name="entity-delete")
+    */
+
+    public function deleteEntityAction(Request $request, $id){
+        $repository = $this->getDoctrine()->getRepository(Armadillo::class);
+        $arma = $repository->findOneById($id);
+
+        $form = $this->createDeleteForm($arma);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($arma);
+            $em->flush();
+
+            return $this->redirectToRoute('entity');
+        }
+        return $this->render('AppBundle:Default:entity-delete.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+
+    /**
+    * Crée un formulaire pour supprimer un Arma
+    */
+    private function createDeleteForm(Armadillo $arma)
+    {
+        //on crée un formulaire
+        return $this->createFormBuilder()
+        ->setAction($this->generateUrl('entity-delete', array('id' => $arma->getId())))
+        ->setMethod('DELETE')
+        ->add('delete', SubmitType::class)
+        ->getForm()
+        ;
     }
 }

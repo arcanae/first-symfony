@@ -7,5 +7,6 @@
         <li>Birthday: {{arma.birthday.format("d-m-Y")}}</li>
         <li>Age: {{arma.age}} y</li>
     </ul>
-    <a href="{{ path('entity-update', {"id":arma.id})}}">update</a>
+    <a href="{{ path('entity-update', {"id":arma.id})}}">Update</a>
+    <a href="{{ path('entity-delete', {"id":arma.id})}}">Delete</a>
 {% endblock %}

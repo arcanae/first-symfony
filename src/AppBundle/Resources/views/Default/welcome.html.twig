@@ -8,7 +8,7 @@
                     <li><a href="{{ path(value, {"year":2121, "title": "example", "_locale": "fr"})}}">{{value}}</a></li>
                 {% elseif value == 'entity-solo' or value =='entity-update' %}
                     <li><a href="{{ path(value, {"id":"1"})}}">{{value}}</a></li>
-                {% elseif value == 'welcome' %}
+                {% elseif value == 'welcome' or value == 'entity-delete' %}
                 {% else %}
                     <li><a href="{{ path(value)}}">{{value}}</a></li>
                 {% endif %}

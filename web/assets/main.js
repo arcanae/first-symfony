@@ -1,3 +1,3 @@
-document.addEventListener("click", function() {
-    document.body.style.backgroundColor = 'lightgoldenrodyellow';
-})
+// document.addEventListener("click", function() {
+//     document.body.style.backgroundColor = 'lightgoldenrodyellow';
+// })
