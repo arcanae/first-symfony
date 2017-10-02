@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Squids list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Color</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for squid in squids %}
+            <tr>
+                <td><a href="{{ path('squid_show', { 'id': squid.id }) }}">{{ squid.id }}</a></td>
+                <td>{{ squid.name }}</td>
+                <td>{{ squid.color }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('squid_show', { 'id': squid.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('squid_edit', { 'id': squid.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('squid_new') }}">Create a new squid</a>
+        </li>
+    </ul>
+{% endblock %}
